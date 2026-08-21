@@ -1,3 +1,5 @@
+from finite_field import calculate as calculate_finite_field
+
 from typing import Callable
 
 def convert_dec(number: str, base: int) -> int:
@@ -56,7 +58,18 @@ def main() -> None:
             expression = input("Operation: ")
 
             if option == "2":
-                print("Finite Field not implemented yet.")
+                parts = expression.upper().split()
+
+                if len(parts) != 3:
+                    raise ValueError("Invalid expression.")
+
+                a, operator, b = parts
+
+                a = int(a, 16)
+                b = int(b, 16)
+
+                result = calculate_finite_field(a, operator, b)
+                print(f"{result:02X}")
                 continue
 
             result = calculate(expression, int(option))
