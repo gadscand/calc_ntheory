@@ -4,15 +4,11 @@ from typing import Callable
 
 def convert_dec(number: str, base: int) -> int:
     """Convert binary or hexadecimal number to decimal."""
+    if base not in {2, 16}:
+        raise ValueError("Invalid base.")
 
-    if base == 0:
-        return int(number, 2)
-
-    if base == 1:
-        return int(number, 16)
-
-    raise ValueError("Invalid base.")
-
+    return int(number, base)
+    
 def calculate(expression: str, base: int) -> int:
     """Calculate a simple addition or subtraction."""
 
