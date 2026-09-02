@@ -36,7 +36,8 @@ def calculate(expression: str, base: int) -> int:
     return operations[operator](a, b)
 
 def main() -> None:
-    while True:
+    running = True
+    while running:
         option = input(
             "[-1 To exit]\n"
             "Type: 0 - Binary, 1 - Hexadecimal, 2 - Finite Field\n"
@@ -44,11 +45,10 @@ def main() -> None:
         )
 
         if option == "-1":
-            break
+            running = False
 
         if option not in {"0", "1", "2"}:
             print("Invalid option")
-            continue
 
         try:
             expression = input("Operation: ")
@@ -66,10 +66,9 @@ def main() -> None:
 
                 result = calculate_finite_field(a, operator, b)
                 print(f"{result:02X}")
-                continue
-
-            result = calculate(expression, int(option))
-            print(result)
+            else:
+                result = calculate(expression, int(option))
+                print(result)
 
         except ValueError as error:
             print(f"Error: {error}")
