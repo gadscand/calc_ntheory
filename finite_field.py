@@ -45,12 +45,42 @@ def multiply(a: int, b: int) -> int:
 
     return result & 0xFF
 
+def inverse(a: int) -> int:
+    """Return the multiplicative inverse of an element of GF(256)."""
+    _validate_element(a)
+
+    if a == 0:
+        raise ValueError("Zero has no inverse in GF(256)")
+
+    result = 1
+    base = a
+    exponent = 254
+    
+    while exponent:
+        if exponent & 1:
+            result = multiply(result, base)
+        base = multiply(base, base)
+        exponent >>= 1
+
+    return result
+
+def divide(a: int, b: int) -> int:
+    """Divide two element on GF(256)"""
+    _validate_element(a)
+    _validate_element(a)
+
+    if b == 0:
+        raise ValueError("Division by zero is not defined")
+
+    return multiply(a, inverse(b))
+
 def calculate(a: int, operator: str, b: int) -> int:
     """Calculate an operation between two GF(256) elements."""
     operations = {
         "+": add,
         "-": subtract,
         "*": multiply,
+        "/": divide,
     }
 
     try:
