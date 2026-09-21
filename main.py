@@ -8,7 +8,7 @@ def convert_dec(number: str, base: int) -> int:
         raise ValueError("Invalid base.")
 
     return int(number, base)
-    
+
 def calculate(expression: str, base: int) -> int:
     """Calculate a simple addition or subtraction."""
 
@@ -40,38 +40,36 @@ def main() -> None:
     while running:
         option = input(
             "[-1 To exit]\n"
-            "Type: 0 - Binary, 1 - Hexadecimal, 2 - Finite Field\n"
+            "Type: 0 - Hexadecimal, 1 - Binary, 2 - Finite Field\n"
             "? "
         )
 
         if option == "-1":
             running = False
+        elif option in {"0", "1", "2"}:
+            try:
+                expression = input("Operation: ")
+                if option == "2":
+                    parts = expression.upper().split()
 
-        if option not in {"0", "1", "2"}:
+                    if len(parts) != 3:
+                        raise ValueError("Invalid expression.")
+
+                    a, operator, b = parts
+
+                    a = int(a, 16)
+                    b = int(b, 16)
+
+                    result = calculate_finite_field(a, operator, b)
+                    print(f"{result:02X}")
+                else:
+                    base = 16 if option == "0" else 2
+                    result = calculate(expression, base)
+                    print(result)
+            except ValueError as error:
+                print(f"Error: {error}")
+        else:
             print("Invalid option")
-
-        try:
-            expression = input("Operation: ")
-
-            if option == "2":
-                parts = expression.upper().split()
-
-                if len(parts) != 3:
-                    raise ValueError("Invalid expression.")
-
-                a, operator, b = parts
-
-                a = int(a, 16)
-                b = int(b, 16)
-
-                result = calculate_finite_field(a, operator, b)
-                print(f"{result:02X}")
-            else:
-                result = calculate(expression, int(option))
-                print(result)
-
-        except ValueError as error:
-            print(f"Error: {error}")
 
 if __name__ == "__main__":
     main()
