@@ -67,7 +67,7 @@ def inverse(a: int) -> int:
 def divide(a: int, b: int) -> int:
     """Divide two element on GF(256)"""
     _validate_element(a)
-    _validate_element(a)
+    _validate_element(b)
 
     if b == 0:
         raise ValueError("Division by zero is not defined")
